@@ -1,6 +1,6 @@
 
 /**
- * MARK: Falta terminar el login
+ * MARK: Clase user
  * Clase para gestionar los datos de los usuarios el login y registro
  */
 class user {
@@ -35,9 +35,11 @@ class user {
                 })
             })
     }
+
     /**
-     * Funcion que se encargara de buscar los datos del usuario en la base de datos
-     * 
+     * Funcion que busca en la base de datos la existencia del usuario junto a su contraseña pasados por parametro
+     * @param {{Object.atributte}} username - nombre del usuario
+     * @param {{Object.atributte}} password - contraseña de usuario
      */
     async checkForUser ({username, password}) {
         fetch(this.jsonUrl, {method: 'Get'})
@@ -45,8 +47,7 @@ class user {
             .then(userArr=>{
 
                 if (userArr.find(userObj => userObj.username === username && userObj.password === password))
-                    console.log("encontrado: ")
-                    console.log(userArr)
+                    location.replace('paginaPrincipal.html') //redirige a la seccion de la pagina principal cuando el login es valido
             
             })
     }
@@ -84,7 +85,8 @@ const userAtributtes = () =>{
         document.querySelector(".registrarse").addEventListener("click", (e)=>{
             // llama a la funcion de registro cuando el boton es pulsado
             e.preventDefault()
-            let User = new user(userAtributtes())
+            let User = new user()
+            User.giveValues(userAtributtes())
             User.registerUser()
         })
     } 
