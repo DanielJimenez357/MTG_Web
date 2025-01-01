@@ -224,3 +224,8 @@ MARK: Aside
 .main__aside__manaValue > input {
     background-color: var(--primary-color3);
 }
+
+
+.main__aside__priceOrder > input:nth-child(1) {
+    background-color: red;
+}

@@ -32,8 +32,15 @@
         <aside class="main__aside">
             <h3>Filtros</h3>
 
+            <div class="main__aside__priceOrder">
+                <label>Precio ascedente</label>
+                <input type="radio" name="priceOrder">
+                <label>Precio descendente</label>
+                <input type="radio" name="priceOrder">
+            </div>
+
             <div class="main__aside__allCards">
-                <label for="allCards">Todas las cartas</label>
+                <label for="allCards">Resetear filtros</label>
                 <input type="submit" value="Click" id="allCards">
             </div>
             <div class="main__aside__expansion">
@@ -145,7 +152,7 @@
                 </datalist>
             </div>
 
-            <div>
+            <div class="main__aside__include">
                 <label> Cartas que contengan: </label>
                 <input type="text">
             </div>
@@ -156,7 +163,6 @@
             <button>Clear</button>
             <div class="main__cardList__cards"></div>
         </div>
-        <button>Buscar</button>
     </main>
     <script src="../js/solicitudCartas.js">
     </script>
