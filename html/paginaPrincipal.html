@@ -18,8 +18,8 @@
             </div>
             <div class="header__nav__search">
                 <label for="search">s</label>
-                <input list="cardsOptions" id="search" type="text" placeholder="Search for card...">
-                <datalist id="cardsOptions"></datalist>
+                <input id="search" type="text" placeholder="Search for card...">
+                <div id="cardsOptions"></div>
             </div>
             <ul class="header__nav__sections">
                 <li><a>Lista de Cartas</a></li>
@@ -34,9 +34,9 @@
 
             <div class="main__aside__priceOrder">
                 <label>Precio ascedente</label>
-                <input type="radio" name="priceOrder">
+                <input type="radio" name="priceOrder" value="ASC">
                 <label>Precio descendente</label>
-                <input type="radio" name="priceOrder">
+                <input type="radio" name="priceOrder" value="DES">
             </div>
 
             <div class="main__aside__allCards">
@@ -156,7 +156,7 @@
                 <label> Cartas que contengan: </label>
                 <input type="text">
             </div>
-            <button>Buscar</button>
+            <button class="main__aside__search">Buscar</button>
         </aside>
         <div class="main__cardList">
             <h2>Listado de cartas</h2>

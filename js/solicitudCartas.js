@@ -1,157 +1,210 @@
-
-
-
-
-
-class ListOfCards {
-	constructor () {
-		let listOfCards
-
-		this.listOfCards = getCards("goblin")
-		console.log(this.listOfCards)
-	}
-}
-
-let listOfCards = new ListOfCards
-
-
+/**
+ * MARK: getCards
+ * funcion para obtener una lista de cartas desde la API de Scryfall segun un filtro
+ * @param 	{string} filter 	- filtro para buscar cartas en la API
+ * @returns {Promise<Array>} 	- devuelve un array de objetos de cartas
+ */
 async function getCards(filter) {
-	fetch("https://api.scryfall.com/cards/search?q=" + filter)
-		.then((response) => response.json())
-		.then((listCards) => listCards)}
-
-
-
-
-const randomCardsAtStart = () => {
-	let randomCards = [
-		"goblin",
-		"slime",
-		"squirrel",
-		"land",
-		"vampire",
-		"angel",
-		"crab",
-		"pirate"
-	]
-	let randomNumber = Math.floor(Math.random()*2)
-	getCards(randomCards[randomNumber])
+    const response = await fetch(
+        "https://api.scryfall.com/cards/search?q=" + filter
+    );
+    const data = await response.json();
+    return data.data;
 }
 
-randomCardsAtStart()
+/**
+ * MARK: Clase ListOfCards
+ * clase para gestionar la lista de cartas mostradas en la aplicación
+ */
+class ListOfCards {
+    /**
+     * constructor de la clase
+     * inicializa propiedades y configura botones
+     */
+    constructor() {
+        this.placeForCards = document.querySelector(".main__cardList__cards");
+        this.listOfCards = [];
+        this.init(); //metodo init para asegurarnos de que se tiene las cartas antes de mostrarlas
+        this.utilitiesToButtons();
+    }
 
-document.querySelector(".main__cardList > button").addEventListener("click", ()=>{
-	document.querySelector(".main__cardList__cards").innerHTML = ""
-})
+    /**
+     * inicializa la lista de cartas con una selección aleatoria al inicio
+     */
+    async init() {
+        this.listOfCards = await getCards(await randomCardsAtStart());
+        this.printCard(this.listOfCards);
+    }
+
+    /**
+     * configura eventos para los botones y elementos interactivos
+     */
+    utilitiesToButtons() {
+        document
+            .querySelector(".main__cardList > button")
+            .addEventListener("click", () => {
+                document.querySelector(".main__cardList__cards").innerHTML = "";
+            });
+
+        document
+            .querySelector(".main__aside > button")
+            .addEventListener("click", () => {
+                document.querySelector(".main__cardList__cards").innerHTML = "";
+                getCards(document.querySelector(".main__aside__include > input").value);
+            });
+
+        let searchInput = document.getElementById("search");
+
+        searchInput.addEventListener("keyup", () => {
+            autocompleteName(
+                document.querySelector(".header__nav__search > input").value
+            );
+        });
+
+        searchInput.addEventListener("enter", () => {
+            searchCard(document.querySelector(".header__nav__search > input").value);
+        });
 
 
-document.querySelector(".main__aside > button").addEventListener("click", () =>{
-	document.querySelector(".main__cardList__cards").innerHTML = ""
-	getCards(document.querySelector(".main__aside__include > input").value)
-})
+        searchInput.addEventListener("focus", () => {
+            let searchOptions = document.querySelector("#cardsOptions");
+            searchOptions.style.display = "flex";
+        });
 
-function printCard(cardImg) {
-	if (cardImg.total_cards >= 0){
-		for (const card of cardImg.data) {
-			let div = document.createElement("div")
-			let img = document.createElement("img");
-			if ("image_uris" in card) {
-				img.src = card.image_uris.png
-			} else {
-				continue
+        let priceOrder = document.querySelector(".main__aside__priceOrder")
+		
+
+		let startFilteredSearch = document.querySelector(".main__aside__search").addEventListener("click" , ()=>{
+			let search = {
+				priceOrder: document.querySelector(".priceOrder")
 			}
-			let price = document.createElement("p")
-			if (card.prices.usd == null) {
-				price.innerHTML = "No price registred"
-			} 
-			else{
-				price.innerHTML = card.prices.usd + "$"
-			}
-			let cardList = document.querySelector(".main__cardList__cards");
-			div.appendChild(img)
-			div.appendChild(price)
-			cardList.appendChild(div);
-		}
-	}
-	else {
-		let img = document.createElement("img");
-		let price = document.createElement("p")
-		if (cardImg.prices.usd == null) {
-			price.innerHTML = "No price registred"
-		} 
-		else{
-			price.innerHTML = cardImg.prices.usd + "$"
-		}
-			img.src = cardImg.image_uris.png;
-			let cardList = document.querySelector(".main__cardList__cards");
-			cardList.appendChild(img);
-	}
+			console.log(priceOrder.priceOrder)
+		})
+		
+    }
 
+    /**
+     * cambia la lista de cartas actual y la imprime
+     * @param {Array} newListOfCards - nueva lista de cartas
+     */
+    changeCards(newListOfCards) {
+        this.listOfCards = newListOfCards;
+        this.printCard(this.listOfCards);
+    }
+
+    /**
+     * Imprime una lista de cartas o una carta individual con un retardo
+     * @param {Array|Object} arrOfCards - lista de cartas o una carta
+     */
+    printCard(arrOfCards) {
+        if (arrOfCards[Symbol.iterator]) { //utilizamos el symbol.iterator para comprobar si el objeto es iterable
+            let delay = 0;
+            for (const card of orderCardsForPrice(arrOfCards)) {
+                setTimeout(() => {
+                    this.placeForCards.appendChild(makeDomOfCard(card));
+                }, delay);
+                delay += 50;
+            }
+        } else {
+            this.placeForCards.appendChild(makeDomOfCard(arrOfCards));
+        }
+    }
 }
 
+// inicializa la clase principal
+let listOfCards = new ListOfCards();
 
-function getNameToComplete () 
-{
-	return document.querySelector(".header__nav__search > input").value
+/**
+ * MARK: randomCardsAtStart
+ * devuelve una palabra aleatoria para iniciar la busqueda de cartas
+ * @returns {string} - nombre aleatorio de una categoria de cartas
+ */
+function randomCardsAtStart() {
+    let randomCards = [
+        "goblin",
+        "slime",
+        "squirrel",
+        "land",
+        "vampire",
+        "angel",
+        "crab",
+        "pirate",
+    ];
+    return randomCards[Math.floor(Math.random() * randomCards.length)];
 }
 
+/**
+ * MARK: makeDomOfCard
+ * crea un nodo DOM a partir de un objeto de carta
+ * @param 	{Object} card 	- objeto de carta con información
+ * @returns {HTMLElement} 	- nodo DOM representando la carta
+ */
+const makeDomOfCard = (card) => {
+    let div = document.createElement("div");
+    let img = document.createElement("img");
+    let price = document.createElement("p");
+    img.src = card.image_uris.png;
+    price.innerHTML = card.prices.usd ? card.prices.usd + "$" : "No price registered";
+    div.appendChild(img);
+    div.appendChild(price);
+    return div;
+};
 
-
-async function autocompleteName (nameTocomplete) 
-{
-	fetch("https://api.scryfall.com/cards/autocomplete?q=" + nameTocomplete)
-		.then((response) => response.json())
-		.then((listCards) => addAutocompletedNames(listCards));
+/**
+ * MARK: autocompleteName
+ * realiza una solicitud para obtener nombres de cartas autocompletados
+ * @param {string} nameToComplete - nombre parcial para autocompletar
+ */
+async function autocompleteName(nameToComplete) {
+    fetch("https://api.scryfall.com/cards/autocomplete?q=" + nameToComplete)
+        .then((response) => response.json())
+        .then((listCards) => addAutocompletedNames(listCards));
 }
 
-
-
-document.getElementById("search").addEventListener("keyup" , ()=>{
-	autocompleteName(getNameToComplete())
-})
-
-
-
-
-function addAutocompletedNames (listOfNames) 
-{
-	let datalist = document.querySelector(".header__nav__search > datalist")
-	datalist.innerHTML = ""
-	for (const name of listOfNames.data) {
-		let option = document.createElement("option")
-		option.value = name
-		datalist.appendChild(option)
-	}
+/**
+ * MARK: addAutocompletedNames
+ * muestra los nombres autocompletados en una lista interactiva
+ * @param {Array} listOfNames - lista de nombres autocompletados
+ */
+function addAutocompletedNames(listOfNames) {
+    let div = document.querySelector("#cardsOptions");
+    div.innerHTML = "";
+    for (const name of listOfNames.data) {
+        let option = document.createElement("p");
+        option.innerHTML = name;
+        option.addEventListener("click", () => {
+            searchCard(option.innerHTML);
+            document.querySelector("#cardsOptions").style.display = "none";
+        });
+        div.appendChild(option);
+    }
 }
 
-document.getElementById("search").addEventListener("blur" , ()=>{
-	searchCard(document.querySelector(".header__nav__search > input").value)
-})
-
-
-function searchCard (cardName)
-{
-	fetch("https://api.scryfall.com/cards/named?exact=" + cardName)
-		.then((response) => response.json())
-		.then((card) => printCard(card));
+/**
+ * MARK: searchCard
+ * busca una carta específica y la imprime
+ * @param {string} cardName - nombre exacto de la carta
+ */
+async function searchCard(cardName) {
+    fetch("https://api.scryfall.com/cards/named?exact=" + cardName)
+        .then((response) => response.json())
+        .then((card) => listOfCards.printCard(card));
 }
 
+/**
+ * MARK: orderCardsForPrice
+ * ordena una lista de cartas por precio en orden ascendente o descendente
+ * @param 	{Array} 	listOfCards - lista de cartas a ordenar
+ * @param 	{string} 	orderType 	- tipo de orden ("ASC" o "DES")
+ * @returns {Array} 				- lista de cartas ordenadas
+ */
+const orderCardsForPrice = (listOfCards, orderType="DES") => {
+    let typeOfSort = [];
+    if (orderType === "ASC") {
+        typeOfSort = listOfCards.sort((a, b) => a.prices.usd - b.prices.usd);
+    } else if (orderType === "DES") {
+        typeOfSort = listOfCards.sort((b, a) => a.prices.usd - b.prices.usd);
+    }
+    return typeOfSort;
+};
 
-const orderCardsForPrice = (listOfCards, orderType) => {
-
-	let typeOfShort
-	if (orderType == "ASC") 
-		typeOfShort = listOfCards.data.sort((a, b) => a.prices.usd - b.prices.usd)
-	if (orderType == "DES")
-		typeOfShort = listOfCards.data.sort((b, a) => a.prices.usd - b.prices.usd)
-	let sortedListOfCards = {
-		data: typeOfShort,
-		total_cards: listOfCards.total_cards,
-	}
-
-	return sortedListOfCards
-}
-
-// document.querySelector(".main__aside__priceOrder > input:nth-child(1)").addEventListener("click", ()=>{
-// 	getCards()
-// })
