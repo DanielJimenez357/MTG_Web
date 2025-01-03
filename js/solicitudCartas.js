@@ -33,7 +33,7 @@ class ListOfCards {
      */
     async init() {
         this.listOfCards = await getCards(await randomCardsAtStart());
-        this.printCard(this.listOfCards);
+            this.printCard(this.listOfCards);
     }
 
     /**
@@ -97,6 +97,8 @@ class ListOfCards {
      * @param {Array|Object} arrOfCards - lista de cartas o una carta
      */
     printCard(arrOfCards) {
+
+
         if (arrOfCards[Symbol.iterator]) { //utilizamos el symbol.iterator para comprobar si el objeto es iterable
             let delay = 0;
             for (const card of orderCardsForPrice(arrOfCards)) {
@@ -141,12 +143,23 @@ function randomCardsAtStart() {
  */
 const makeDomOfCard = (card) => {
     let div = document.createElement("div");
+    let loading = document.createElement("div")
     let img = document.createElement("img");
     let price = document.createElement("p");
+    price.style.display = "none"
+    img.style.display = "none"
+    loading.style.display = "block"
+    loading.style.display = "block"
     img.src = card.image_uris.png;
+    img.addEventListener("load", ()=>{
+        loading.style.display = "none"
+        img.style.display = "block"
+        price.style.display = "block"
+    })
     price.innerHTML = card.prices.usd ? card.prices.usd + "$" : "No price registered";
     div.appendChild(img);
     div.appendChild(price);
+    div.appendChild(loading);
     return div;
 };
 

@@ -253,3 +253,39 @@ MARK: Aside
     background-color: red;
 }
 
+.main__aside > div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+/*
+MARK: Animaciones
+*/
+
+
+@keyframes loading {
+    0%{
+        background-color: var(--primary-color);
+        border-radius: 0px;
+    } 50% {
+        background-color: rgb(109, 128, 185);
+        border-radius: 100px
+    } 100%{
+        background-color: var(--primary-color);
+        border-radius: 0px;
+    }
+}
+
+.main__cardList__cards > div > div{
+    width: 5vw;
+    height: 5vw;
+    left: 50%;
+    background-color: green;
+    animation: loading 4s linear infinite;
+    margin-left: 20%;
+    margin-top: 50%;
+}
