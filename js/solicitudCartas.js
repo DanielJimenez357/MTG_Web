@@ -46,12 +46,7 @@ class ListOfCards {
                 document.querySelector(".main__cardList__cards").innerHTML = "";
             });
 
-        document
-            .querySelector(".main__aside > button")
-            .addEventListener("click", () => {
-                document.querySelector(".main__cardList__cards").innerHTML = "";
-                getCards(document.querySelector(".main__aside__include > input").value);
-            });
+
 
         let searchInput = document.getElementById("search");
 
@@ -75,33 +70,31 @@ class ListOfCards {
 		
 
 		let startFilteredSearch = document.querySelector(".main__aside__search").addEventListener("click" , ()=>{
-			let search = {
-				priceOrder: document.querySelector(".priceOrder")
-			}
-			console.log(priceOrder.priceOrder)
+            
+            filterCards(getFilters())
+
 		})
-		
     }
 
     /**
      * cambia la lista de cartas actual y la imprime
      * @param {Array} newListOfCards - nueva lista de cartas
      */
-    changeCards(newListOfCards) {
+    changeCards(newListOfCards, priceOrder) {
+        this.placeForCards.innerHTML = ""
         this.listOfCards = newListOfCards;
-        this.printCard(this.listOfCards);
+        this.printCard(this.listOfCards, priceOrder);
     }
 
     /**
      * Imprime una lista de cartas o una carta individual con un retardo
      * @param {Array|Object} arrOfCards - lista de cartas o una carta
      */
-    printCard(arrOfCards) {
-
+    printCard(arrOfCards, priceOrder) {
 
         if (arrOfCards[Symbol.iterator]) { //utilizamos el symbol.iterator para comprobar si el objeto es iterable
             let delay = 0;
-            for (const card of orderCardsForPrice(arrOfCards)) {
+            for (const card of orderCardsForPrice(arrOfCards, priceOrder)) {
                 setTimeout(() => {
                     this.placeForCards.appendChild(makeDomOfCard(card));
                 }, delay);
@@ -220,4 +213,45 @@ const orderCardsForPrice = (listOfCards, orderType="DES") => {
     }
     return typeOfSort;
 };
+
+
+/**
+ * MARK: getFilters
+ */
+
+const getFilters = () =>{
+    let filters = {
+        priceOrder: null,
+        expansion: "",
+        manaCost: "",
+    }
+    if (document.querySelector(".main__aside__priceOrder__radio:checked")) {
+        let checkedRadioButton = document.querySelector(".main__aside__priceOrder__radio:checked")
+        filters.priceOrder = checkedRadioButton.value
+    }
+
+    filters.expansion = document.querySelector(".main__aside__expansion > input").value
+
+    filters.manaCost = document.querySelector(".main__aside__manaValue > input").value
+
+    return filters
+}
+
+
+/**
+ * MARK: filterCards
+ */
+
+const filterCards = ({priceOrder, expansion, manaCost}) =>{
+    let url = "https://api.scryfall.com/cards/search?q="
+    if(expansion !== "")
+        url += "e:" + expansion
+    if(manaCost !== "")
+        url += "+cmc=" + manaCost
+    console.log(url)
+    fetch(url)
+        .then((response) => response.json())
+        .then((listCards) => listOfCards.changeCards(listCards.data, priceOrder));
+}
+
 
