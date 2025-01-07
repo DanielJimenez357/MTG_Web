@@ -270,13 +270,13 @@ MARK: Animaciones
 @keyframes loading {
     0%{
         background-color: var(--primary-color);
-        border-radius: 0px;
+        border-radius: 5px;
     } 50% {
         background-color: rgb(109, 128, 185);
-        border-radius: 100px
+        border-radius: 60px
     } 100%{
         background-color: var(--primary-color);
-        border-radius: 0px;
+        border-radius: 5px;
     }
 }
 
@@ -285,7 +285,11 @@ MARK: Animaciones
     height: 5vw;
     left: 50%;
     background-color: green;
-    animation: loading 4s linear infinite;
+    animation: loading 5s linear infinite;
     margin-left: 20%;
     margin-top: 50%;
+}
+
+.main__cardList__pages{
+    display: none;
 }
