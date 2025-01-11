@@ -151,17 +151,25 @@
                     <option value="+10">+10</option>
                 </datalist>
             </div>
+            <button class="main__aside__search">Buscar</button>
 
             <div class="main__aside__include">
                 <label> Cartas que contengan: </label>
                 <input type="text">
+                <button class="main__aside__include__button">Buscar</button>
             </div>
-            <button class="main__aside__search">Buscar</button>
         </aside>
         <div class="main__cardList">
             <h2>Listado de cartas</h2>
             <button>Clear</button>
             <div class="main__cardList__cards"></div>
+            <div class="main__cardList__pages">
+                <button><-</button>
+                <span class="main__cardList__pages__actual"></span>
+                <span>...</span>
+                <span class="main__cardList__pages__number"></span>
+                <button>-></button>
+            </div>
         </div>
     </main>
     <script src="../js/solicitudCartas.js">
