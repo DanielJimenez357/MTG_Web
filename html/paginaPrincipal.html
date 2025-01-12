@@ -6,8 +6,8 @@
     <title>Mana Vault</title>
     <link rel="stylesheet" href="../css/paginaPrincipal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
@@ -22,7 +22,7 @@
                 <div id="cardsOptions"></div>
             </div>
             <ul class="header__nav__sections">
-                <li><a>Lista de Cartas</a></li>
+                <li><a href="../html/paginaPrincipal.html">Lista de Cartas</a></li>
                 <li><a>Cesta</a></li>
                 <li><a>Carta de la semana</a></li>
             </ul>
@@ -33,17 +33,18 @@
             <h3>Filtros</h3>
 
             <div class="main__aside__priceOrder">
-                <label>Precio ascedente</label>
-                <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="ASC">
-                <label>Precio descendente</label>
-                <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="DES">
+                <div>
+                    <label>Precio ascedente</label>
+                    <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="ASC">
+                </div>
+                <div>
+                    <label>Precio descendente</label>
+                    <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="DES">
+                </div>
             </div>
 
-            <div class="main__aside__allCards">
-                <label for="allCards">Resetear filtros</label>
-                <input type="submit" value="Click" id="allCards">
-            </div>
             <div class="main__aside__expansion">
+                <label>Expansion:</label>
                 <input type="text" list="mtg_expansions" for="expansion">
                 <datalist name="mtg_expansions" id="mtg_expansions">
                     <option value="2ED">Unlimited Edition (2ED)</option>
@@ -135,7 +136,8 @@
             </div>
 
             <div class="main__aside__manaValue">
-                <input type="text" list="manaValue">Coste de mana</input>
+                <label>Coste de Maná:<label>
+                <input type="text" list="manaValue"/>
                 <datalist id="manaValue">
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -159,10 +161,32 @@
                 <button class="main__aside__include__button">Buscar</button>
             </div>
         </aside>
+        <div class="main__cardInformation">
+            <img>
+            <h2>Name</h2>
+            <h3>Colors</h3>
+            <h3>Key words</h3>
+            <h3>Price</h3>
+            <h3>Artist</h3>
+            <h3>Rarity</h3>
+            <h3>Types</h3>
+            <h3>Set</h3>
+            <p>descripcion</p>
+            <p>Texto relleno</p>
+        </div>
         <div class="main__cardList">
+            <div class="main__cardList__arrow"></div>
+            <div class="main__cardList__searchAnimation">
+                <img src="../css/assets/Magic_card_back.webp" class="main__cardList__searchAnimation__card"></img>
+                <img src="../css/assets/Magic_card_back.webp" class="main__cardList__searchAnimation__card"></img>
+                <img src="../css/assets/Magic_card_back.webp" class="main__cardList__searchAnimation__card"></img>
+                <img src="../css/assets/Magic_card_back.webp" class="main__cardList__searchAnimation__card"></img>
+                <img src="../css/assets/Magic_card_back.webp" class="main__cardList__searchAnimation__card"></img>
+                <div class="main__cardList__searchAnimation__spark"></div>
+            </div>
             <h2>Listado de cartas</h2>
-            <button>Clear</button>
-            <div class="main__cardList__cards"></div>
+            <div class="main__cardList__cards">
+            </div>
             <div class="main__cardList__pages">
                 <button><-</button>
                 <span class="main__cardList__pages__actual"></span>

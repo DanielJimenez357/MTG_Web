@@ -36,11 +36,6 @@ class ListOfCards {
 	 * configura eventos para los botones y elementos interactivos
 	 */
 	utilitiesToButtons() {
-		document
-			.querySelector(".main__cardList > button")
-			.addEventListener("click", () => {
-				document.querySelector(".main__cardList__cards").innerHTML = "";
-			});
 		let searchInput = document.getElementById("search");
 		searchInput.addEventListener("keyup", () => {
 			autocompleteName(
@@ -59,6 +54,7 @@ class ListOfCards {
 		let divPages = document.querySelector(".main__cardList__pages");
 		divPages.children[0].addEventListener("click", () => {
 			if (this.actualPage > 0) {
+				arrowAnimation()
 				--this.actualPage;
 				this.changeCards();
 				document.querySelector(".main__cardList__pages__actual").innerHTML =
@@ -67,6 +63,7 @@ class ListOfCards {
 		});
 		divPages.children[4].addEventListener("click", () => {
 			if (this.actualPage < this.library.pages - 1) {
+				arrowAnimation()
 				++this.actualPage;
 				this.changeCards();
 				document.querySelector(".main__cardList__pages__actual").innerHTML =
@@ -92,6 +89,7 @@ class ListOfCards {
 	 * @param {Array} newListOfCards - nueva lista de cartas
 	 */
 	changeCards() {
+		arrowAnimation()
 		this.placeForCards.innerHTML = "";
 		this.printCard();
 	}
@@ -109,12 +107,15 @@ class ListOfCards {
 			for (const card of arrOfCards) {
 				setTimeout(() => {
 					this.placeForCards.appendChild(makeDomOfCard(card));
+					
 				}, delay);
 				delay += 50;
 			}
 		} else {
 			this.placeForCards.appendChild(makeDomOfCard(arrOfCards));
 		}
+		setTimeout(cardAnimation, 3200)
+		
 	}
 
 	/**
@@ -123,7 +124,9 @@ class ListOfCards {
 	 */
 
 	storeCards = (requestNoSort, recursive = false, url = null) => {
+
 		if (!recursive && !url) {
+			document.querySelector(".main__cardList__searchAnimation").style.display = "none"
 			this.library.cards = [...this.library.cards, ...requestNoSort.data]
 			this.packageCards(this.orderCardsForPrice())
 			this.changeCards();
@@ -173,10 +176,10 @@ class ListOfCards {
 			this.library.priceOrder = checkedRadioButton.value;
 		}
 		this.library.expansion = document.querySelector(
-			".main__aside__expansion > input"
+			".main__aside__expansion input"
 		).value;
 		this.library.manaCost = document.querySelector(
-			".main__aside__manaValue > input"
+			".main__aside__manaValue input"
 		).value;
 	};
 
@@ -228,6 +231,8 @@ function randomCardsAtStart() {
  * @returns {Promise<Array>} 	- devuelve un array de objetos de cartas
  */
 async function getConteiningCards(filter) {
+	listOfCards.placeForCards.innerHTML = ""
+	document.querySelector(".main__cardList__searchAnimation").style.display = "block"
 	const response = await fetch(
 		"https://api.scryfall.com/cards/search?q=" + filter
 	);
@@ -249,12 +254,30 @@ const makeDomOfCard = (card) => {
 	price.style.display = "none";
 	img.style.display = "none";
 	loading.style.display = "block";
-	loading.style.display = "block";
+	
+	let imgInfo
 	try {
-		img.src = card.image_uris.png;
+		imgInfo = img.src = card.image_uris.png;
 	} catch (error) {
-		img.src = card.card_faces[0].image_uris.png;
+		imgInfo = img.src = card.card_faces[0].image_uris.png;
 	}
+	
+	
+	
+	
+	div.setAttribute("tabindex", "0")
+	div.addEventListener("focus", ()=>{
+		let cardInfo = [card.prices.usd, card.name, card.artist, card.rarity, card.type_line, card.set_name, card.oracle_text, card.flavor_text]
+		let cardInfoDom = document.querySelector(".main__cardInformation")
+		for (let i = 0; i<cardInfo.length; i++){
+			cardInfoDom.children[i].innerHTML = cardInfo[i]
+		}
+		cardInfoDom.children[0].src = imgInfo
+		document.querySelector(".main__cardInformation").style.transform = "translateX(0)"
+	})
+	div.addEventListener("focusout", ()=>{
+		document.querySelector(".main__cardInformation").style.transform = "translateX(-1000px)"
+	})
 	{
 		img.addEventListener("load", () => {
 			loading.style.display = "none";
@@ -270,6 +293,7 @@ const makeDomOfCard = (card) => {
 		return div;
 	}
 };
+
 
 /**
  * MARK: autocompleteName
@@ -307,9 +331,11 @@ function addAutocompletedNames(listOfNames) {
  * @param {string} cardName - nombre exacto de la carta
  */
 async function searchCard(cardName) {
-	fetch("https://api.scryfall.com/cards/named?exact=" + cardName)
-		.then((response) => response.json())
-		.then((card) => listOfCards.printCard(card));
+	const response = await fetch("https://api.scryfall.com/cards/named?exact=" + cardName)
+	const card = await response.json()
+	listOfCards.library.cards = [card]
+	listOfCards.placeForCards.innerHTML = ""
+	listOfCards.printCard()
 }
 
 /**
@@ -319,6 +345,9 @@ async function searchCard(cardName) {
 async function getFilteredCards(recursive = false, nextPage) {
 	let url;
 	if (!recursive) {
+		listOfCards.placeForCards.innerHTML = ""
+		document.querySelector(".main__cardList__searchAnimation").style.display = "block"
+
 		listOfCards.library.cards = [];
 		listOfCards.library.pages = 0;
 		listOfCards.actualPage = 0;
@@ -340,10 +369,63 @@ async function getFilteredCards(recursive = false, nextPage) {
 
 	if (response.ok) {
 		if (!recursive) {
+
 			listOfCards.library.pages = Math.ceil(data.total_cards / 64)
 		}
 		listOfCards.storeCards(data, data.has_more, data.next_page);
 	}
+}
+
+
+/**
+ * MARK: cardAnimation
+ */
+
+
+const cardAnimation = () => {
+	document.querySelectorAll(".main__cardList__cards > div").forEach((card) => {
+		const image = card.querySelector("img"); 
+		
+        if (image) {
+			image.addEventListener("mousemove", (event) => {
+				const rect = image.getBoundingClientRect();
+				const x = event.clientX - rect.left; 
+				const y = event.clientY - rect.top; 
+				
+				const centerX = rect.width / 2;
+				const centerY = rect.height / 2;
+				const maxTilt = 40;
+				
+				const tiltX = ((y - centerY) / centerY) * maxTilt; 
+				const tiltY = ((x - centerX) / centerX) * -maxTilt;
+
+				image.style.zIndex = "10"
+				
+				image.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.8)`;
+			});
+    
+		image.addEventListener("mouseleave", () => {
+			image.style.zIndex = "0"
+
+			image.style.transform = "perspective(1500px) rotateX(0deg) rotateY(0deg) scale(1)";
+			});
+        }
+    });
+    
+}
+
+
+
+const arrowAnimation = () => {
+
+	const ARROW = document.querySelector(".main__cardList__arrow")
+	const SCROLL = document.querySelector(".main__cardList__cards")
+
+	ARROW.style.display = "block"
+
+	SCROLL.addEventListener("scrollend", () =>{
+		ARROW.style.display = "none"
+	})
 }
 
 
