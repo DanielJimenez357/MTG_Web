@@ -1,3 +1,4 @@
+
 /**
  * MARK: Clase ListOfCards
  * clase para gestionar la lista de cartas mostradas en la aplicación
@@ -36,6 +37,7 @@ class ListOfCards {
 	 * configura eventos para los botones y elementos interactivos
 	 */
 	utilitiesToButtons() {
+		//detectar cuando dejamos de escribir en la barra de busqueda
 		let searchInput = document.getElementById("search");
 		searchInput.addEventListener("keyup", () => {
 			autocompleteName(
@@ -86,10 +88,9 @@ class ListOfCards {
 	/**
 	 * MARK:changeCards
 	 * cambia la lista de cartas actual y la imprime
-	 * @param {Array} newListOfCards - nueva lista de cartas
 	 */
 	changeCards() {
-		arrowAnimation()
+		arrowAnimation() //animacion de flecha en movimiento
 		this.placeForCards.innerHTML = "";
 		this.printCard();
 	}
@@ -97,7 +98,6 @@ class ListOfCards {
 	/**
 	 * MARK:printCard
 	 * Imprime una lista de cartas o una carta individual con un retardo
-	 * @param {Array|Object} arrOfCards - lista de cartas o una carta
 	 */
 	printCard() {
 		let arrOfCards = this.library.cards[this.actualPage];
@@ -105,27 +105,27 @@ class ListOfCards {
 			//utilizamos el symbol.iterator para comprobar si el objeto es iterable
 			let delay = 0;
 			for (const card of arrOfCards) {
-				setTimeout(() => {
+				setTimeout(() => { //retardo
 					this.placeForCards.appendChild(makeDomOfCard(card));
-					
 				}, delay);
 				delay += 50;
 			}
 		} else {
 			this.placeForCards.appendChild(makeDomOfCard(arrOfCards));
 		}
-		setTimeout(cardAnimation, 3200)
-		
+		setTimeout(cardAnimation, 3200) //animaciones cuando se hayan mostrado todas las cartas por eso 3200
 	}
 
 	/**
-	 * MARK:storeCards
-	 * @param {*} request
+	 * 
+	 * @param {url} requestNoSort	-	datos sin filtrar listos para ser procesados
+	 * @param {*} recursive 		-	comprobar si es la primera o ultima vez que se llama a la funcion en un bucle
+	 * @param {*} url 				-	url de la proxima request
 	 */
 
 	storeCards = (requestNoSort, recursive = false, url = null) => {
 
-		if (!recursive && !url) {
+		if (!recursive && !url) { //que se ejecute solo en la ultima ejecucion
 			document.querySelector(".main__cardList__searchAnimation").style.display = "none"
 			this.library.cards = [...this.library.cards, ...requestNoSort.data]
 			this.packageCards(this.orderCardsForPrice())
@@ -138,6 +138,9 @@ class ListOfCards {
 	};
 
 
+	/**
+	 * actualizacion del numero de paginas
+	 */
 	updatePagination = () => {
 		if (this.library.pages > 1) {
 			document.querySelector(".main__cardList__pages__actual").innerHTML = listOfCards.actualPage + 1;
@@ -149,13 +152,11 @@ class ListOfCards {
 	/**
 	 * MARK: orderCardsForPrice
 	 * ordena una lista de cartas por precio en orden ascendente o descendente
-	 * @param 	{Array} 	listOfCards - lista de cartas a ordenar
-	 * @returns {Array} 				- lista de cartas ordenadas
+	 * @returns {Array}		-	array con las cartas ordenadas
 	 */
 	orderCardsForPrice = () => {
 		let cardsToSort = this.library.cards
 		let orderType = this.library.priceOrder;
-		
 		if (orderType === "ASC") {
 			cardsToSort = cardsToSort.sort((a, b) => a.prices.usd - b.prices.usd);
 		} else if (orderType === "DES") {
@@ -166,7 +167,7 @@ class ListOfCards {
 
 	/**
 	 * MARK: getFilters
-	 * @returns {void}
+	 * funcion para poner los filtros de la actual request
 	 */
 	getFilters = () => {
 		if (document.querySelector(".main__aside__priceOrder__radio:checked")) {
@@ -186,8 +187,9 @@ class ListOfCards {
 
 	/**
  * MARK: packageCards
+ * funcion para empacar dentro de un array otros arrays que contengan
+ * 64 cartas cada uno para facilitar su manejo
  * @param {*} listOfCards 
- * @returns 
  */
 	packageCards = (listOfCards) =>{
 	let counter = 0;
@@ -219,7 +221,6 @@ function randomCardsAtStart() {
 		"vampire",
 		"angel",
 		"crab",
-		"pirate",
 	];
 	return randomCards[Math.floor(Math.random() * randomCards.length)];
 }
@@ -262,22 +263,35 @@ const makeDomOfCard = (card) => {
 		imgInfo = img.src = card.card_faces[0].image_uris.png;
 	}
 	
-	
-	
-	
-	div.setAttribute("tabindex", "0")
-	div.addEventListener("focus", ()=>{
-		let cardInfo = [card.prices.usd, card.name, card.artist, card.rarity, card.type_line, card.set_name, card.oracle_text, card.flavor_text]
-		let cardInfoDom = document.querySelector(".main__cardInformation")
-		for (let i = 0; i<cardInfo.length; i++){
-			cardInfoDom.children[i].innerHTML = cardInfo[i]
-		}
-		cardInfoDom.children[0].src = imgInfo
-		document.querySelector(".main__cardInformation").style.transform = "translateX(0)"
-	})
-	div.addEventListener("focusout", ()=>{
-		document.querySelector(".main__cardInformation").style.transform = "translateX(-1000px)"
-	})
+	return fillCardInformation(div, card, imgInfo, img, loading, price);
+};
+
+
+/**
+ * MARK: fillCardInformation
+ * 
+ * Maneja la informarcion mostrada en el aside cuando se pincha en una carta
+ * ademas de la logica para ello
+ * 
+ * @param {*} div 
+ * @param {*} card 
+ * @param {*} imgInfo 
+ * @param {*} img 
+ * @param {*} loading 
+ * @param {*} price 
+ * @returns {HTML}		-	div con toda la informacion preparada
+ */
+function fillCardInformation(div, card, imgInfo, img, loading, price) {
+	div.setAttribute("tabindex", "0");
+	let cardInfoDom = document.querySelector(".main__cardInformation");
+	let cardInfoButton = cardInfoDom.querySelector("button");
+
+	div.addEventListener("focus",  putDataInDOM());
+
+        
+	document.querySelector(".main__cardInformation__arrow").addEventListener("click", () => {
+		document.querySelector(".main__cardInformation").style.transform = "translateX(-1000px)";
+	});
 	{
 		img.addEventListener("load", () => {
 			loading.style.display = "none";
@@ -292,8 +306,49 @@ const makeDomOfCard = (card) => {
 		div.appendChild(loading);
 		return div;
 	}
-};
 
+
+
+	function putDataInDOM() {
+		return () => {
+			//propiedades de la carta a DOM
+			cardInfoDom.children[1].src = imgInfo;
+			cardInfoDom.children[2].innerHTML = card.name;
+			cardInfoDom.children[3].innerHTML = card.prices.usd + "$" || "No price resgistred";
+			cardInfoDom.children[4].innerHTML = card.artist;
+			cardInfoDom.children[5].innerHTML = card.rarity;
+			cardInfoDom.children[6].innerHTML = card.colors;
+			cardInfoDom.children[7].innerHTML = card.type_line;
+			cardInfoDom.children[8].innerHTML = card.set_name;
+			cardInfoDom.children[9].innerHTML = card.oracle_text;
+			cardInfoDom.children[10].innerHTML = card.flavor_text;
+			cardInfoDom.children[11].innerHTML = card.keywords;
+			document.querySelector(".main__cardInformation").style.transform = "translateX(0)";
+
+
+			cardInfoButton.addEventListener("click", getDataToCart(), {once:true});
+		};
+	}
+
+	/**
+	 * añade al almacenamiento local la carta seleccionada
+	 */
+	function getDataToCart() {
+		return () => {
+			// Recuperar los datos actuales de la carta mostrada
+			const imgInfo = cardInfoDom.children[0].src;
+			const cardName = cardInfoDom.children[1].textContent;
+			const cardPrice = cardInfoDom.children[2].innerHTML;
+
+			const boughtCard = {
+				cardImage: imgInfo,
+				cardName: cardName,
+				cardPrice: cardPrice,
+			};
+			cartToLocalStorage(boughtCard);
+		};
+	}
+}
 
 /**
  * MARK: autocompleteName
@@ -379,6 +434,7 @@ async function getFilteredCards(recursive = false, nextPage) {
 
 /**
  * MARK: cardAnimation
+ * Animacion para las cartas
  */
 
 
@@ -401,7 +457,7 @@ const cardAnimation = () => {
 
 				image.style.zIndex = "10"
 				
-				image.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.8)`;
+				image.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.6)`;
 			});
     
 		image.addEventListener("mouseleave", () => {
@@ -415,18 +471,41 @@ const cardAnimation = () => {
 }
 
 
-
+/**
+ * MARK: arrowAnimation
+ */
 const arrowAnimation = () => {
-
 	const ARROW = document.querySelector(".main__cardList__arrow")
 	const SCROLL = document.querySelector(".main__cardList__cards")
-
 	ARROW.style.display = "block"
-
 	SCROLL.addEventListener("scrollend", () =>{
 		ARROW.style.display = "none"
 	})
 }
 
 
+/**
+ * MARK: cartToLocalStorage
+ * @param {*} card 
+ */
+const cartToLocalStorage = (card) => {
+    let cardsInCart = localStorage.getItem("Cart");
+
+    cardsInCart = cardsInCart ? JSON.parse(cardsInCart) : [];
+
+    const existingCardIndex = cardsInCart.findIndex(
+        (cartItem) => cartItem.card.cardName === card.cardName
+    );
+
+    if (existingCardIndex !== -1) {
+        cardsInCart[existingCardIndex].quantity += 1;
+    } else {
+        cardsInCart.push({
+            card: card,
+            quantity: 1,
+        });
+    }
+
+    localStorage.setItem("Cart", JSON.stringify(cardsInCart));
+};
 

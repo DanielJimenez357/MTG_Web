@@ -14,7 +14,6 @@
         <nav class="header__nav">
             <div class="header__nav__container">
                 <h1 class="header__nav__container__title"><a href="../html/paginaPrincipal.html">Mana Vault</a></h1>
-                <img class="header__nav__container__logo" src="" alt="logo de la tienda">
             </div>
             <div class="header__nav__search">
                 <label for="search">s</label>
@@ -23,156 +22,161 @@
             </div>
             <ul class="header__nav__sections">
                 <li><a href="../html/paginaPrincipal.html">Lista de Cartas</a></li>
-                <li><a>Cesta</a></li>
-                <li><a href="./cartaSemana.html">Carta de la semana</a></li>
+                <li><a href="../html/cesta.html">Cesta</a></li>
             </ul>
         </nav>
     </header>
     <main class="main">
         <aside class="main__aside">
-            <h3>Filtros</h3>
 
-            <div class="main__aside__priceOrder">
-                <div>
-                    <label>Precio ascedente</label>
-                    <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="ASC">
+            <div class="main__aside__container">
+
+                <h3>Filtros</h3>
+    
+                <div class="main__aside__priceOrder">
+                    <div>
+                        <label>Precio ascedente</label>
+                        <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="ASC">
+                    </div>
+                    <div>
+                        <label>Precio descendente</label>
+                        <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="DES">
+                    </div>
                 </div>
-                <div>
-                    <label>Precio descendente</label>
-                    <input class="main__aside__priceOrder__radio" type="radio" name="priceOrder" value="DES">
+    
+                <div class="main__aside__expansion">
+                    <label>Expansion:</label>
+                    <input type="text" list="mtg_expansions" for="expansion">
+                    <datalist name="mtg_expansions" id="mtg_expansions">
+                        <option value="2ED">Unlimited Edition (2ED)</option>
+                        <option value="10E">Tenth Edition (10E)</option>
+                        <option value="4ED">Fourth Edition (4ED)</option>
+                        <option value="5DN">Fifth Dawn (5DN)</option>
+                        <option value="5ED">Fifth Edition (5ED)</option>
+                        <option value="6ED">Sixth Edition (6ED)</option>
+                        <option value="7ED">Seventh Edition (7ED)</option>
+                        <option value="8ED">Eighth Edition (8ED)</option>
+                        <option value="9ED">Ninth Edition (9ED)</option>
+                        <option value="ALA">Shards of Alara (ALA)</option>
+                        <option value="ALL">Alliances (ALL)</option>
+                        <option value="APC">Apocalypse (APC)</option>
+                        <option value="ARB">Alara Reborn (ARB)</option>
+                        <option value="ARN">Arabian Nights (ARN)</option>
+                        <option value="AVR">Avacyn Restored (AVR)</option>
+                        <option value="BOK">Betrayers of Kamigawa (BOK)</option>
+                        <option value="BNG">Born of the Gods (BNG)</option>
+                        <option value="BRO">The Brothers' War (BRO)</option>
+                        <option value="CNS">Conspiracy (CNS)</option>
+                        <option value="CSP">Coldsnap (CSP)</option>
+                        <option value="DKA">Dark Ascension (DKA)</option>
+                        <option value="DIS">Dissension (DIS)</option>
+                        <option value="DMU">Dominaria United (DMU)</option>
+                        <option value="DRK">The Dark (DRK)</option>
+                        <option value="DTK">Dragons of Tarkir (DTK)</option>
+                        <option value="DGM">Dragon's Maze (DGM)</option>
+                        <option value="EVE">Eventide (EVE)</option>
+                        <option value="EXO">Exodus (EXO)</option>
+                        <option value="FEM">Fallen Empires (FEM)</option>
+                        <option value="FRF">Fate Reforged (FRF)</option>
+                        <option value="FUT">Future Sight (FUT)</option>
+                        <option value="GPT">Guildpact (GPT)</option>
+                        <option value="HML">Homelands (HML)</option>
+                        <option value="ICE">Ice Age (ICE)</option>
+                        <option value="INV">Invasion (INV)</option>
+                        <option value="ISD">Innistrad (ISD)</option>
+                        <option value="JOU">Journey into Nyx (JOU)</option>
+                        <option value="JMP">Jumpstart (JMP)</option>
+                        <option value="KHM">Kaldheim (KHM)</option>
+                        <option value="KLD">Kaladesh (KLD)</option>
+                        <option value="KTK">Khans of Tarkir (KTK)</option>
+                        <option value="LEA">Limited Edition Alpha (LEA)</option>
+                        <option value="LEB">Limited Edition Beta (LEB)</option>
+                        <option value="LEG">Legends (LEG)</option>
+                        <option value="LGN">Legions (LGN)</option>
+                        <option value="LRW">Lorwyn (LRW)</option>
+                        <option value="M10">Magic 2010 (M10)</option>
+                        <option value="M11">Magic 2011 (M11)</option>
+                        <option value="M12">Magic 2012 (M12)</option>
+                        <option value="M13">Magic 2013 (M13)</option>
+                        <option value="M14">Magic 2014 (M14)</option>
+                        <option value="M15">Magic 2015 (M15)</option>
+                        <option value="M19">Core Set 2019 (M19)</option>
+                        <option value="M20">Core Set 2020 (M20)</option>
+                        <option value="M21">Core Set 2021 (M21)</option>
+                        <option value="MID">Innistrad: Midnight Hunt (MID)</option>
+                        <option value="MIR">Mirage (MIR)</option>
+                        <option value="MMQ">Mercadian Masques (MMQ)</option>
+                        <option value="MBS">Mirrodin Besieged (MBS)</option>
+                        <option value="MRD">Mirrodin (MRD)</option>
+                        <option value="NEM">Nemesis (NEM)</option>
+                        <option value="NEO">Kamigawa: Neon Dynasty (NEO)</option>
+                        <option value="NPH">New Phyrexia (NPH)</option>
+                        <option value="ODY">Odyssey (ODY)</option>
+                        <option value="OGW">Oath of the Gatewatch (OGW)</option>
+                        <option value="ONS">Onslaught (ONS)</option>
+                        <option value="PLS">Planeshift (PLS)</option>
+                        <option value="PLC">Planar Chaos (PLC)</option>
+                        <option value="POR">Portal (POR)</option>
+                        <option value="PTK">Portal Three Kingdoms (PTK)</option>
+                        <option value="RAV">Ravnica: City of Guilds (RAV)</option>
+                        <option value="RNA">Ravnica Allegiance (RNA)</option>
+                        <option value="ROE">Rise of the Eldrazi (ROE)</option>
+                        <option value="RTR">Return to Ravnica (RTR)</option>
+                        <option value="SNC">Streets of New Capenna (SNC)</option>
+                        <option value="SCG">Scourge (SCG)</option>
+                        <option value="SHM">Shadowmoor (SHM)</option>
+                        <option value="SOK">Saviors of Kamigawa (SOK)</option>
+                        <option value="SOM">Scars of Mirrodin (SOM)</option>
+                        <option value="STX">Strixhaven: School of Mages (STX)</option>
+                        <option value="THB">Theros Beyond Death (THB)</option>
+                        <option value="THS">Theros (THS)</option>
+                        <option value="TMP">Tempest (TMP)</option>
+                        <option value="TOR">Torment (TOR)</option>
+                        <option value="TSP">Time Spiral (TSP)</option>
+                    </datalist>
                 </div>
+    
+                <div class="main__aside__manaValue">
+                    <label>Coste de Maná:<label>
+                    <input type="text" list="manaValue"/>
+                    <datalist id="manaValue">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </datalist>
+                </div>
+                <button class="main__aside__search">Buscar</button>
             </div>
 
-            <div class="main__aside__expansion">
-                <label>Expansion:</label>
-                <input type="text" list="mtg_expansions" for="expansion">
-                <datalist name="mtg_expansions" id="mtg_expansions">
-                    <option value="2ED">Unlimited Edition (2ED)</option>
-                    <option value="10E">Tenth Edition (10E)</option>
-                    <option value="4ED">Fourth Edition (4ED)</option>
-                    <option value="5DN">Fifth Dawn (5DN)</option>
-                    <option value="5ED">Fifth Edition (5ED)</option>
-                    <option value="6ED">Sixth Edition (6ED)</option>
-                    <option value="7ED">Seventh Edition (7ED)</option>
-                    <option value="8ED">Eighth Edition (8ED)</option>
-                    <option value="9ED">Ninth Edition (9ED)</option>
-                    <option value="ALA">Shards of Alara (ALA)</option>
-                    <option value="ALL">Alliances (ALL)</option>
-                    <option value="APC">Apocalypse (APC)</option>
-                    <option value="ARB">Alara Reborn (ARB)</option>
-                    <option value="ARN">Arabian Nights (ARN)</option>
-                    <option value="AVR">Avacyn Restored (AVR)</option>
-                    <option value="BOK">Betrayers of Kamigawa (BOK)</option>
-                    <option value="BNG">Born of the Gods (BNG)</option>
-                    <option value="BRO">The Brothers' War (BRO)</option>
-                    <option value="CNS">Conspiracy (CNS)</option>
-                    <option value="CSP">Coldsnap (CSP)</option>
-                    <option value="DKA">Dark Ascension (DKA)</option>
-                    <option value="DIS">Dissension (DIS)</option>
-                    <option value="DMU">Dominaria United (DMU)</option>
-                    <option value="DRK">The Dark (DRK)</option>
-                    <option value="DTK">Dragons of Tarkir (DTK)</option>
-                    <option value="DGM">Dragon's Maze (DGM)</option>
-                    <option value="EVE">Eventide (EVE)</option>
-                    <option value="EXO">Exodus (EXO)</option>
-                    <option value="FEM">Fallen Empires (FEM)</option>
-                    <option value="FRF">Fate Reforged (FRF)</option>
-                    <option value="FUT">Future Sight (FUT)</option>
-                    <option value="GPT">Guildpact (GPT)</option>
-                    <option value="HML">Homelands (HML)</option>
-                    <option value="ICE">Ice Age (ICE)</option>
-                    <option value="INV">Invasion (INV)</option>
-                    <option value="ISD">Innistrad (ISD)</option>
-                    <option value="JOU">Journey into Nyx (JOU)</option>
-                    <option value="JMP">Jumpstart (JMP)</option>
-                    <option value="KHM">Kaldheim (KHM)</option>
-                    <option value="KLD">Kaladesh (KLD)</option>
-                    <option value="KTK">Khans of Tarkir (KTK)</option>
-                    <option value="LEA">Limited Edition Alpha (LEA)</option>
-                    <option value="LEB">Limited Edition Beta (LEB)</option>
-                    <option value="LEG">Legends (LEG)</option>
-                    <option value="LGN">Legions (LGN)</option>
-                    <option value="LRW">Lorwyn (LRW)</option>
-                    <option value="M10">Magic 2010 (M10)</option>
-                    <option value="M11">Magic 2011 (M11)</option>
-                    <option value="M12">Magic 2012 (M12)</option>
-                    <option value="M13">Magic 2013 (M13)</option>
-                    <option value="M14">Magic 2014 (M14)</option>
-                    <option value="M15">Magic 2015 (M15)</option>
-                    <option value="M19">Core Set 2019 (M19)</option>
-                    <option value="M20">Core Set 2020 (M20)</option>
-                    <option value="M21">Core Set 2021 (M21)</option>
-                    <option value="MID">Innistrad: Midnight Hunt (MID)</option>
-                    <option value="MIR">Mirage (MIR)</option>
-                    <option value="MMQ">Mercadian Masques (MMQ)</option>
-                    <option value="MBS">Mirrodin Besieged (MBS)</option>
-                    <option value="MRD">Mirrodin (MRD)</option>
-                    <option value="NEM">Nemesis (NEM)</option>
-                    <option value="NEO">Kamigawa: Neon Dynasty (NEO)</option>
-                    <option value="NPH">New Phyrexia (NPH)</option>
-                    <option value="ODY">Odyssey (ODY)</option>
-                    <option value="OGW">Oath of the Gatewatch (OGW)</option>
-                    <option value="ONS">Onslaught (ONS)</option>
-                    <option value="PLS">Planeshift (PLS)</option>
-                    <option value="PLC">Planar Chaos (PLC)</option>
-                    <option value="POR">Portal (POR)</option>
-                    <option value="PTK">Portal Three Kingdoms (PTK)</option>
-                    <option value="RAV">Ravnica: City of Guilds (RAV)</option>
-                    <option value="RNA">Ravnica Allegiance (RNA)</option>
-                    <option value="ROE">Rise of the Eldrazi (ROE)</option>
-                    <option value="RTR">Return to Ravnica (RTR)</option>
-                    <option value="SNC">Streets of New Capenna (SNC)</option>
-                    <option value="SCG">Scourge (SCG)</option>
-                    <option value="SHM">Shadowmoor (SHM)</option>
-                    <option value="SOK">Saviors of Kamigawa (SOK)</option>
-                    <option value="SOM">Scars of Mirrodin (SOM)</option>
-                    <option value="STX">Strixhaven: School of Mages (STX)</option>
-                    <option value="THB">Theros Beyond Death (THB)</option>
-                    <option value="THS">Theros (THS)</option>
-                    <option value="TMP">Tempest (TMP)</option>
-                    <option value="TOR">Torment (TOR)</option>
-                    <option value="TSP">Time Spiral (TSP)</option>
-                </datalist>
-            </div>
-
-            <div class="main__aside__manaValue">
-                <label>Coste de Maná:<label>
-                <input type="text" list="manaValue"/>
-                <datalist id="manaValue">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="+10">+10</option>
-                </datalist>
-            </div>
-            <button class="main__aside__search">Buscar</button>
-
-            <div class="main__aside__include">
+            <div class="main__aside__include main__aside__container">
                 <label> Cartas que contengan: </label>
                 <input type="text">
                 <button class="main__aside__include__button">Buscar</button>
             </div>
         </aside>
+        
         <div class="main__cardInformation">
+            <div class="main__cardInformation__arrow"></div>
             <img>
             <h2>Name</h2>
-            <h3>Colors</h3>
-            <h3>Key words</h3>
             <h3>Price</h3>
             <h3>Artist</h3>
             <h3>Rarity</h3>
+            <h3>Colors</h3>
             <h3>Types</h3>
             <h3>Set</h3>
             <p>descripcion</p>
             <p>Texto relleno</p>
+            <p>Key words</p>
+            <button>Añadir</button>
         </div>
         <div class="main__cardList">
             <div class="main__cardList__arrow"></div>
@@ -196,7 +200,7 @@
             </div>
         </div>
     </main>
-    <script src="../js/solicitudCartas.js">
+    <script type="module" src="../js/solicitudCartas.js">
     </script>
 </body>
 </html>
