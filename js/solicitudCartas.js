@@ -336,9 +336,9 @@ function fillCardInformation(div, card, imgInfo, img, loading, price) {
 	function getDataToCart() {
 		return () => {
 			// Recuperar los datos actuales de la carta mostrada
-			const imgInfo = cardInfoDom.children[0].src;
-			const cardName = cardInfoDom.children[1].textContent;
-			const cardPrice = cardInfoDom.children[2].innerHTML;
+			const imgInfo = cardInfoDom.children[1].src;
+			const cardName = cardInfoDom.children[2].textContent;
+			const cardPrice = cardInfoDom.children[3].innerHTML;
 
 			const boughtCard = {
 				cardImage: imgInfo,
