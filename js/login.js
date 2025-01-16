@@ -24,7 +24,7 @@ class user {
     }
 
     /**
-     * Función que toma los valores del usuario y con ellos lo registra en la base de datos
+     * Función que toma los valores del usuario y con ellos lo registra en la "base de datos"
      * de JSON usando un fetch y el método POST
      */
     async registerUser() {
@@ -43,11 +43,6 @@ class user {
      */
     async checkForUser({ username, password }) {
             let response = await fetch(this.JSONURL, { method: 'GET' });
-
-            if (!response.ok) {
-                throw new Error('No se pudo obtener la lista de usuarios.');
-            }
-
             let userArr = await response.json();
             let userFound = userArr.find(
                 (userObj) => userObj.username === username && userObj.password === password
@@ -56,16 +51,33 @@ class user {
             if (userFound) {
                 let generatedToken = Math.random().toString(36).substring(2)
                 localStorage.setItem("token", generatedToken)
-
                 this.data = userFound; // Actualizamos el objeto `data` con los datos del usuario encontrado
+                localStorage.setItem("email", this.data.email );
                 location.replace('paginaPrincipal.html'); // Redirige a la sección de la página principal
             } else {
                 alert('Usuario o contraseña incorrectos.');
+                
+                if (localStorage.getItem("Intentos")){
+                    let intentos = parseInt(localStorage.getItem("Intentos"))
+                    if(intentos>0){
+                        localStorage.setItem("Intentos", --intentos)
+                    }
+                    else{
+                        let date = new Date()
+                        localStorage.setItem("banTime", date)
+                        checkBan()
+                    }
+                }
+                else {
+                    localStorage.setItem("Intentos", 4)
+                }
             }
     }
 }
 
+
 /**
+ * MARK: userAtributtes
  * Función que toma los valores del formulario y devuelve un objeto con sus valores
  * @returns {Object} userAtributes - objeto con los datos del usuario
  */
@@ -105,6 +117,22 @@ const userAtributtes = () => {
         });
     }
 })();
+
+const checkBan = () => {
+    if (localStorage.getItem("banTime")) {
+        let dateOfBan = new Date(localStorage.getItem("banTime"))
+        let actualTime = new Date
+        if (actualTime - dateOfBan < 300000){
+            document.querySelector("body").innerHTML = "Cuenta bloqueada, espere 5 minutos y recargue la pagina"
+        } else {
+            localStorage.removeItem("banTime")
+            localStorage.setItem("Intentos", 4)
+        }
+    }
+}
+
+checkBan()
+
 
 export let User = new user();
 

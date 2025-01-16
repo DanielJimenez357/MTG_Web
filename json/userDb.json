@@ -1,6 +1,6 @@
 {
   "users": [
-  {
+    {
       "id": "fc24",
       "username": "Laura",
       "password": "231",
@@ -17,6 +17,13 @@
       "username": "Daniel",
       "password": "123",
       "email": "daniel05jimenez357@gmail.com"
+    },
+    {
+      "id": "dc5b",
+      "username": "a",
+      "password": "a",
+      "email": "a@",
+      "cart": []
     }
   ]
 }

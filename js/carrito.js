@@ -123,13 +123,18 @@ document.querySelector("main button").addEventListener("click", ()=>{
  */
 const sendEmail = () => {
 	// creamos el objeto con los datos del usuario
-	let emailData = {
-		userName: User.data.userName,
-		userEmail: User.data.userEmail,
-	}
+	let emailUser = localStorage.getItem("email")
 
-	emailjs.send("service_wjk7bk5", "template_qre64xr", emailData)	
-	alert("Se ha enviado una confirmacion de su pedido al correo")
+	const emailParams = {
+        userEmail: emailUser, 
+        price: document.querySelector("span").innerHTML, 
+    };
+
+	emailjs.send("service_iw5z4n3", "template_qre64xr", emailParams)	
+	.then(()=>{
+		alert("Se ha enviado una confirmacion de su pedido al correo")
+	})
+	
 }
 
 // llamamos a la funcion para mostrar el carrito
