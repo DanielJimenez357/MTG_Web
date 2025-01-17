@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mana Vault</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
-    <form>
-        <label>Nombre de usuario</label>
-        <input type="text" placeholder="Usuario">
-        <label>Contraseña</label>
-        <input type="password" placeholder="Contraseña">
-        <button class="login">Entrar</button>
-    </form>
-        <p>¿No tiene cuenta? <a href="registro.html">Registrese aquí</a></p>
+    <div class="container">
+        <form>
+            <div class="userName">
+                <label>Nombre de usuario</label>
+                <input type="text" placeholder="Usuario">
+            </div>
+            <div class="password">
+                <label>Contraseña</label>
+                <input type="password" placeholder="Contraseña">
+            </div>
+            <button class="login">Entrar</button>
+        </form>
+            <p>¿No tiene cuenta? <a href="registro.html">Registrese aquí</a></p>
+    </div>
 
     <script type="module" src="../js/login.js"></script>
 </body>

@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
-    <form class="register">
-        <label>Nombre de nuevo usuario</label>
-        <input type="text" placeholder="Usuario" minlength="3" required >
-        <label>Contraseña</label>
-        <input type="password" placeholder="Contraseña" required>
-        <label>Email</label>
-        <input type="email" placeholder="Email" required>
-        <button class="registrarse">Registrarse</button>
-    </form>
+    <div class="container">
+
+        <form class="register">
+            <div>
+                <label>Nombre de nuevo usuario</label>
+                <input type="text" placeholder="Usuario" minlength="3" required >
+            </div>
+            <div>
+                <label>Contraseña</label>
+                <input type="password" placeholder="Contraseña" required>
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" placeholder="Email" required>
+            </div>
+            <button class="registrarse">Registrarse</button>
+        </form>
         <p>¿Ya tiene una cuenta? <a href="login.html">Inicie sesion aquí</a></p>
+    </div>
         <script type="module" src="../js/login.js"></script>
 </body>
 </html>
