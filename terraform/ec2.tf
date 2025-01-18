@@ -55,6 +55,3 @@ resource "local_file" "private_key" {
   filename = "${path.module}/deployer-key.pem"
 }
 
-output "instance_ip" {
-  value = aws_instance.web.public_ip
-}
