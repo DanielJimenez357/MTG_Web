@@ -49,3 +49,12 @@ resource "aws_instance" "web" {
               systemctl enable apache2
               EOF
 }
+
+
+resource "aws_eip" "web" {
+  instance = aws_instance.web.id
+}
+
+output "public_ip" {
+  value = aws_eip.web.public_ip
+}
