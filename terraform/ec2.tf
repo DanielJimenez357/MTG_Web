@@ -51,10 +51,11 @@ resource "aws_instance" "web" {
 }
 
 
-resource "aws_eip" "web" {
-  instance = aws_instance.web.id
+resource "aws_eip_association" "web" {
+  instance_id = aws_instance.web.id
+  public_ip = "54.174.43.163"
 }
 
 output "public_ip" {
-  value = aws_eip.web.public_ip
+  value = aws_eip_association.web.public_ip
 }
