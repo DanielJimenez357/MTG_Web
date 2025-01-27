@@ -44,9 +44,10 @@ resource "aws_instance" "web" {
   user_data = <<-EOF
               #!/bin/bash
               apt update -y
-              apt install -y apache2
-              systemctl start apache2
-              systemctl enable apache2
+              apt-get install -y awscli
+              export AWS_REGION="us-east-1"
+              mkdir -p /web
+              aws s3 cp s3://mi-carpeta-terraform/ /web --recursive
               EOF
 }
 
