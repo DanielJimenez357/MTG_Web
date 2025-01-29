@@ -12,3 +12,9 @@ output "instance_public_key" {
   description = "The public key of the EC2 instance"
   value       = tls_private_key.example.public_key_openssh
 }
+
+
+output "deployer_private_key" {
+  value = tls_private_key.example.private_key_pem
+  sensitive = true 
+}

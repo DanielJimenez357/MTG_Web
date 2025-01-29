@@ -38,6 +38,19 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: ./terraform
 
+      - name: Get the private key from Terraform output
+        id: terraform-output
+        run: |
+          PRIVATE_KEY=$(terraform output -raw deployer_private_key)
+          echo "::set-output name=private_key::$PRIVATE_KEY"
+
+      - name: Set deployer key as GitHub secret
+        run: |
+          curl -X PUT \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"encrypted_value": "${{ steps.terraform-output.outputs.private_key }}", "key_id": "deployer-key"}' \
+          https://api.github.com/repos/${{ github.repository }}/actions/secrets/deployer-key
+
       - name: Get EC2 Public IP
         id: get_ec2_ip
         run: |
