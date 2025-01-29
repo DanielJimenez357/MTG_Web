@@ -12,4 +12,3 @@ output "instance_public_key" {
   description = "The public key of the EC2 instance"
   value       = tls_private_key.example.public_key_openssh
 }
-

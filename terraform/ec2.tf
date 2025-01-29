@@ -57,6 +57,3 @@ resource "aws_eip_association" "web" {
   public_ip = "54.174.43.163"
 }
 
-output "public_ip" {
-  value = aws_eip_association.web.public_ip
-}

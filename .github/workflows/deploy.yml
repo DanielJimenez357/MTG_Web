@@ -41,8 +41,9 @@ jobs:
       - name: Get EC2 Public IP
         id: get_ec2_ip
         run: |
-          EC2_IP=$(terraform output -raw ec2_public_ip)
+          EC2_IP=$(terraform output instance_id | tr -d '\n')
           echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
+      
 
       - name: Install AWS CLI
         run: |
