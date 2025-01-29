@@ -44,11 +44,14 @@ jobs:
           EC2_IP=$(terraform output instance_id | tr -d '\n')
           echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
       
-
-      - name: Install AWS CLI
+      - name: Install Python and pip
         run: |
           sudo apt-get update
-          sudo apt-get install -y awscli
+          sudo apt-get install -y python3 python3-pip
+  
+      - name: Install AWS CLI using pip
+        run: |
+          sudo pip3 install awscli
 
       - name: Retrieve SSH Key from AWS SSM
         run: |
